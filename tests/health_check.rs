@@ -4,7 +4,9 @@ use ztp::run;
 fn spawn_app() -> String {
     let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind random port");
     // We retrieve the port assigned to us by the OS
+    let ip = listener.local_addr().unwrap().ip();
     let port = listener.local_addr().unwrap().port();
+    println!("ip: {}", ip);
     println!("port: {}", port);
     let server = run(listener).expect("Failed to bind address");
     let _ = tokio::spawn(server);
@@ -29,4 +31,5 @@ async fn health_check_works() {
     // Assert
     assert!(response.status().is_success());
     assert_eq!(Some(0), response.content_length());
+    assert_eq!(1,2);
 }
